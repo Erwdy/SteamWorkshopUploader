@@ -24,6 +24,11 @@ namespace ConsoleApp2
         {
             Console.WriteLine(pchDebugText);
         }
+        static void EndProgram()
+        {
+            Console.ReadLine();
+            SteamAPI.Shutdown();//end
+        }
         static void Main(string[] args)
         {
             if (!Packsize.Test())
@@ -39,21 +44,21 @@ namespace ConsoleApp2
                 if (SteamAPI.RestartAppIfNecessary(AppId_t.Invalid))
                 {
                     Console.WriteLine("[Steamworks.NET] Shutting down because RestartAppIfNecessary returned true. Steam will restart the application.");
-                    Console.ReadLine();
+                    EndProgram();
                     return;
                 }
             }
             catch (System.DllNotFoundException e)
             {
                 Console.WriteLine("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e);
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
             m_bInitialized = SteamAPI.Init();
             if (!m_bInitialized)
             {
                 Console.WriteLine("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.");
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
 
@@ -76,32 +81,32 @@ namespace ConsoleApp2
             if (!File.Exists("title.txt"))
             {
                 Console.WriteLine("title.txt is not exist");
-                Console.ReadLine();
+                EndProgram();
                 return ;
             }
             title=File.ReadAllText("title.txt");
             if (title.Length == 0)
             {
                 Console.WriteLine("ERROR_ title.txt is empty");
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
             if (!File.Exists("content.txt"))
             {
                 Console.WriteLine("content.txt is not exist");
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
             content = File.ReadAllText("content.txt");
             if (content.Length == 0) {
                 Console.WriteLine("ERROR_ content.txt is empty");
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
             if (!Directory.Exists(content)&&!File.Exists(content))
             {
                 Console.WriteLine("ERROR_ content folder/file is not exist");
-                Console.ReadLine();
+                EndProgram();
                 return;
             }
             if (File.Exists("description.txt"))
@@ -113,7 +118,7 @@ namespace ConsoleApp2
                 preview = File.ReadAllText("preview.txt");
                 if (preview.Length!=0&&!File.Exists(preview)) {
                     Console.WriteLine("preview img is not exist");
-                    Console.ReadLine();
+                    EndProgram();
                     return ;
                 }
             }
@@ -131,9 +136,7 @@ namespace ConsoleApp2
             timer.Enabled = false;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
-            Console.ReadLine();
-
-            SteamAPI.Shutdown();//end
+            EndProgram();
         }
         private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
