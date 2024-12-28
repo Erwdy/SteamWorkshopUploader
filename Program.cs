@@ -80,7 +80,7 @@ namespace ConsoleApp2
                 return ;
             }
             title=File.ReadAllText("title.txt");
-            if (content.Length == 0)
+            if (title.Length == 0)
             {
                 Console.WriteLine("ERROR_ title.txt is empty");
                 Console.ReadLine();
@@ -111,7 +111,7 @@ namespace ConsoleApp2
             if (File.Exists("preview.txt"))
             {
                 preview = File.ReadAllText("preview.txt");
-                if (!File.Exists(preview)) {
+                if (preview.Length!=0&&!File.Exists(preview)) {
                     Console.WriteLine("preview img is not exist");
                     Console.ReadLine();
                     return ;
